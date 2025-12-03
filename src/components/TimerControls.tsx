@@ -1,0 +1,1 @@
+// Botones Play/Pause/Reset
