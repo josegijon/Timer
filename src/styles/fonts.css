@@ -1,0 +1,27 @@
+@font-face {
+    font-family: Orbitron;
+    src: url('/src/assets/fonts/Orbitron-Regular.ttf');
+}
+
+
+@font-face {
+    font-family: MonomaniacOne;
+    src: url('/src/assets/fonts/MonomaniacOne-Regular.ttf');
+}
+
+@font-face {
+    font-family: ShareTechMono;
+    src: url('/src/assets/fonts/ShareTechMono-Regular.ttf');
+}
+
+@font-face {
+    font-family: KodeMono;
+    src: url('/src/assets/fonts/KodeMono-Regular.ttf');
+}
+
+@theme {
+    --font-orbitron: "Orbitron";
+    --font-monomaniac: "MonomaniacOne";
+    --font-shareTechMono: "ShareTechMono";
+    --font-kode-mono: "KodeMono";
+}

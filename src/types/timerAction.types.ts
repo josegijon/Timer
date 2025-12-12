@@ -1,0 +1,1 @@
+export type TimerAction = "Start" | "Restart" | "Pause";
