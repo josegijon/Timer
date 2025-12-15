@@ -11,6 +11,12 @@ export const TimerApp = () => {
     const timer = useTimer();
 
     useEffect(() => {
+        if ("Notification" in window) {
+            Notification.requestPermission().then((permission) => {
+                console.log("Permission for notifications: ", permission);
+            });
+        }
+
         if (!timer.isRunning) return;
 
         const intervalId = setInterval(() => {
@@ -41,6 +47,7 @@ export const TimerApp = () => {
                     min={(Math.floor(timer.seg / 60))}
                     seg={(timer.seg % 60)}
                     action={timer.action}
+                    isRunning={timer.isRunning}
                     onAddMin={timer.handleAddMin}
                     onSubtractMin={timer.handleSubtractMin}
                     onAddSeg={timer.handleAddSeg}

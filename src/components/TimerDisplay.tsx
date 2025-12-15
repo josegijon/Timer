@@ -7,6 +7,7 @@ interface Props {
     min: number;
     seg: number;
     action: TimerAction;
+    isRunning: boolean;
     onAddMin: () => void;
     onSubtractMin: () => void;
     onAddSeg: () => void;
@@ -15,7 +16,7 @@ interface Props {
     onReset: () => void;
 }
 
-export const TimerDisplay = ({ min, seg, action, onAddMin, onSubtractMin, onAddSeg, onSubtractSeg, onAction, onReset }: Props) => {
+export const TimerDisplay = ({ min, seg, action, isRunning, onAddMin, onSubtractMin, onAddSeg, onSubtractSeg, onAction, onReset }: Props) => {
     return (
         <div className="flex flex-col items-center justify-center gap-9">
             {/* container */}
@@ -26,7 +27,11 @@ export const TimerDisplay = ({ min, seg, action, onAddMin, onSubtractMin, onAddS
                     <IconButton icon={<Minus color="black" size={15} />} onClick={onSubtractMin} />
                 </div>
 
-                <div className="text-center text-7xl font-kode-mono w-sm flex justify-center">
+                <div className={`text-center text-7xl font-kode-mono w-sm flex justify-center transition-all ease-in-out duration-300 tracking-wider
+                    ${isRunning
+                        ? 'text-cyan-200 drop-shadow-[0_0_30px_rgba(255,255,255,0.5)] scale-105 animate-pulse'
+                        : 'text-gray-400 drop-shadow-[0_0_10px_rgba(156,163,175,0.3)] scale-100'
+                    }`}>
                     {String(min).padStart(2, "0")}:{String(seg).padStart(2, "0")}
                 </div>
 
