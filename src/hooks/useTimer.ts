@@ -40,11 +40,24 @@ export const useTimer = () => {
             if (prev <= 1) {
                 setAction("Start");
                 setIsRunning(false);
+                notifyTimerEnd();
                 return 0;
             }
             return prev - 1;
         });
     }, []);
+
+    // Alerts
+    const notifyTimerEnd = () => {
+        const audio = new Audio("/final-countdown-timer.mp3");
+        audio.play().catch((err) => console.log("Error al reproducir el audio: ", err));
+
+        if ("Notification" in window && Notification.permission === "granted") {
+            new Notification("Timer ended", {
+                body: "Your time has reached 0!",
+            });
+        };
+    };
 
 
     return {
