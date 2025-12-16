@@ -4,11 +4,13 @@ import { TimerDisplay } from "./TimerDisplay";
 import { PomodoroDisplay } from "./PomodoroDisplay";
 import { useTimer } from "../hooks/useTimer";
 import type { TimerMode } from "../types/timerMode.types"
+import { usePomodoro } from "../hooks/usePomodoro";
 
 export const TimerApp = () => {
     const [mode, setMode] = useState<TimerMode>('Timer');
 
     const timer = useTimer();
+    const pomodoro = usePomodoro();
 
     useEffect(() => {
         if ("Notification" in window) {
@@ -17,14 +19,25 @@ export const TimerApp = () => {
             });
         }
 
-        if (!timer.isRunning) return;
+        if (!timer.isRunning && !pomodoro.isRunning) return;
 
-        const intervalId = setInterval(() => {
-            timer.handleSubtractSeg();
-        }, 1000);
+        const timerIsRunning = timer.isRunning;
 
-        return () => clearInterval(intervalId);
-    }, [timer.isRunning]);
+        if (timerIsRunning) {
+            const intervalId = setInterval(() => {
+                timer.handleSubtractSeg();
+            }, 1000);
+
+            return () => clearInterval(intervalId);
+        } else {
+            const intervalId = setInterval(() => {
+                pomodoro.handleSubtractSeg();
+            }, 1000);
+
+            return () => clearInterval(intervalId);
+        }
+
+    }, [timer.isRunning, pomodoro.isRunning]);
 
 
     return (
@@ -56,7 +69,19 @@ export const TimerApp = () => {
                     onReset={timer.handleReset}
                 />
             )}
-            {mode === 'Pomodoro' && <PomodoroDisplay />}
+            {mode === 'Pomodoro' && (
+                <PomodoroDisplay
+                    min={(Math.floor(pomodoro.seg / 60))}
+                    seg={(pomodoro.seg % 60)}
+                    action={pomodoro.action}
+                    isRunning={pomodoro.isRunning}
+                    phase={pomodoro.phase}
+                    cycles={pomodoro.cycles}
+                    onAction={pomodoro.handleAction}
+                    onSkipStage={pomodoro.handleSkipStage}
+                    onReset={pomodoro.handleReset}
+                />
+            )}
         </div>
     )
 }

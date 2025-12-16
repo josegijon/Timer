@@ -1,0 +1,1 @@
+export type PomodoroPhase = "work" | "shortBreak" | "longBreak" | "idle";
