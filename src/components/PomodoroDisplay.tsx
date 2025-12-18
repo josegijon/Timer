@@ -46,8 +46,8 @@ export const PomodoroDisplay = ({ total, min, seg, initialTime, action, isRunnin
             </div>
 
             {/* container */}
-            <div className="flex items-center justify-center gap-3">
-                <div className={`text-center text-7xl font-kode-mono w-sm flex justify-center transition-all ease-in-out duration-300 tracking-wider
+            <div className="flex items-center justify-center gap-3 w-full">
+                <div className={`text-center text-6xl 2xs:text-7xl font-kode-mono w-sm flex justify-center transition-all ease-in-out duration-300 tracking-wider
                     ${isRunning
                         ? phase === 'shortBreak' || phase === 'longBreak'
                             ? 'text-[#10B981] drop-shadow-[0_0_30px_rgba(255,255,255,0.5)] scale-105 animate-pulse'

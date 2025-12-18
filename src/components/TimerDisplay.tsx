@@ -37,7 +37,7 @@ export const TimerDisplay = ({ total, min, seg, initialTime, action, isRunning, 
                     />
                 </div>
 
-                <div className={`text-center text-7xl font-kode-mono w-sm flex justify-center transition-all ease-in-out duration-300 tracking-wider
+                <div className={`text-center text-5xl xs:text-[60px] 2xs:text-7xl font-kode-mono xs:w-sm flex justify-center transition-all ease-in-out duration-300 tracking-wider
                     ${isRunning
                         ? 'text-blue-500 drop-shadow-[0_0_30px_rgba(255,255,255,0.5)] scale-105 animate-pulse'
                         : 'text-gray-400 drop-shadow-[0_0_10px_rgba(156,163,175,0.3)] scale-100'
