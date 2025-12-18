@@ -59,9 +59,9 @@ export const TimerApp = () => {
     };
 
     return (
-        <div className="flex flex-col gap-10">
+        <div className="flex flex-col gap-10 w-full max-w-[350px] xs:max-w-fit">
             {/* Mode Selector */}
-            <div className="flex gap-3">
+            <div className="flex flex-col xs:flex-row gap-3">
                 <ModeButton
                     mode="Timer"
                     isActive={mode === 'Timer'}

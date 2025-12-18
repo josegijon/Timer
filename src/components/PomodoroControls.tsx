@@ -10,9 +10,9 @@ interface Props {
 
 export const PomodoroControls = ({ seg, action, onAction, onSkipStage, onReset }: Props) => {
     return (
-        <div className="flex gap-3">
+        <div className="flex flex-col xs:flex-row gap-3 w-full">
             <button
-                className={`cursor-pointer p-3 text-center rounded-2xl transition ease-in-out duration-300 min-w-30 disabled:bg-gray-500 disabled:cursor-auto
+                className={`cursor-pointer p-3 text-center rounded-2xl transition ease-in-out duration-300 w-full xs:min-w-30 disabled:bg-gray-500 disabled:cursor-auto
                     ${action === "Start" || action === "Restart"
                         ? 'bg-blue-500 text-white hover:bg-blue-700'
                         : action === 'Pause'

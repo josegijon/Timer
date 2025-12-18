@@ -1,6 +1,11 @@
 @import "tailwindcss";
 @import './styles/fonts.css';
 
+@theme {
+  --breakpoint-xs: 450px;
+  --breakpoint-2xs: 550px;
+}
+
 .bg-gradient {
   @apply bg-linear-to-br from-slate-900 via-gray-900 to-slate-800 min-h-screen flex items-center justify-center p-4 text-white;
 }
