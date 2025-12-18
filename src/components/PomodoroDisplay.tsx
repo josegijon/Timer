@@ -1,10 +1,13 @@
 import type { PomodoroPhase } from "../types/pomodoroPhase.types";
 import type { TimerAction } from "../types/timerAction.types";
 import { PomodoroControls } from "./PomodoroControls";
+import { ProgressBar } from "./ProgressBar";
 
 interface Props {
+    total: number;
     min: number;
     seg: number;
+    initialTime: number;
     action: TimerAction;
     isRunning: boolean;
     phase: PomodoroPhase;
@@ -14,7 +17,7 @@ interface Props {
     onReset: () => void;
 }
 
-export const PomodoroDisplay = ({ min, seg, action, isRunning, phase, cycles, onAction, onSkipStage, onReset }: Props) => {
+export const PomodoroDisplay = ({ total, min, seg, initialTime, action, isRunning, phase, cycles, onAction, onSkipStage, onReset }: Props) => {
 
     const getPhaseLabel = (phase: PomodoroPhase): string => {
         switch (phase) {
@@ -22,6 +25,15 @@ export const PomodoroDisplay = ({ min, seg, action, isRunning, phase, cycles, on
             case 'shortBreak': return 'Short Break';
             case 'longBreak': return 'Long Break';
             case 'idle': return 'Ready';
+        }
+    };
+
+    const getPhaseColor = (phase: PomodoroPhase): string => {
+        switch (phase) {
+            case 'work': return '#EF4444';
+            case 'shortBreak': return '#10B981';
+            case 'longBreak': return '#3B82F6';
+            case 'idle': return '#6B7280';
         }
     };
 
@@ -38,17 +50,23 @@ export const PomodoroDisplay = ({ min, seg, action, isRunning, phase, cycles, on
                 <div className={`text-center text-7xl font-kode-mono w-sm flex justify-center transition-all ease-in-out duration-300 tracking-wider
                     ${isRunning
                         ? phase === 'shortBreak' || phase === 'longBreak'
-                            ? 'text-green-500 drop-shadow-[0_0_30px_rgba(255,255,255,0.5)] scale-105 animate-pulse'
-                            : 'text-blue-500 drop-shadow-[0_0_30px_rgba(255,255,255,0.5)] scale-105 animate-pulse'
+                            ? 'text-[#10B981] drop-shadow-[0_0_30px_rgba(255,255,255,0.5)] scale-105 animate-pulse'
+                            : 'text-[#EF4444] drop-shadow-[0_0_30px_rgba(255,255,255,0.5)] scale-105 animate-pulse'
                         : 'text-gray-400 drop-shadow-[0_0_10px_rgba(156,163,175,0.3)] scale-100'
                     }`}>
                     {String(min).padStart(2, "0")}:{String(seg).padStart(2, "0")}
                 </div>
             </div>
 
+            <ProgressBar
+                current={total}
+                total={initialTime}
+                color={getPhaseColor(phase)}
+            />
+
             {/* PomodoroControls */}
             <PomodoroControls
-                seg={seg}
+                seg={total}
                 action={action}
                 onAction={onAction}
                 onSkipStage={onSkipStage}

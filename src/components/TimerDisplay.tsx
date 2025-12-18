@@ -2,10 +2,14 @@ import { Minus, Plus } from "lucide-react";
 import { IconButton } from './IconButton';
 import { TimerControls } from "./TimerControls";
 import type { TimerAction } from "../types/timerAction.types";
+import { ProgressBar } from "./ProgressBar";
+import { COLOR_PROGRESS_BAR_TIMER } from "../constants/timer";
 
 interface Props {
+    total: number;
     min: number;
     seg: number;
+    initialTime: number;
     action: TimerAction;
     isRunning: boolean;
     onAddMin: () => void;
@@ -16,7 +20,7 @@ interface Props {
     onReset: () => void;
 }
 
-export const TimerDisplay = ({ min, seg, action, isRunning, onAddMin, onSubtractMin, onAddSeg, onSubtractSeg, onAction, onReset }: Props) => {
+export const TimerDisplay = ({ total, min, seg, initialTime, action, isRunning, onAddMin, onSubtractMin, onAddSeg, onSubtractSeg, onAction, onReset }: Props) => {
     return (
         <div className="flex flex-col items-center justify-center gap-9">
             <div className="flex items-center justify-center gap-3">
@@ -55,8 +59,19 @@ export const TimerDisplay = ({ min, seg, action, isRunning, onAddMin, onSubtract
                 </div>
             </div>
 
+            <ProgressBar
+                current={total}
+                total={initialTime}
+                color={COLOR_PROGRESS_BAR_TIMER}
+            />
+
             {/* TimerControls */}
-            <TimerControls action={action} onAction={onAction} onReset={onReset} />
+            <TimerControls
+                seg={total}
+                action={action}
+                onAction={onAction}
+                onReset={onReset}
+            />
         </div>
     )
 }

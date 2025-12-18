@@ -1,16 +1,17 @@
 import type { TimerAction } from "../types/timerAction.types";
 
 interface Props {
+    seg: number;
     action: TimerAction;
     onAction: () => void;
     onReset: () => void;
 }
 
-export const TimerControls = ({ action, onAction, onReset }: Props) => {
+export const TimerControls = ({ seg, action, onAction, onReset }: Props) => {
     return (
         <div className="flex gap-3">
             <button
-                className={`cursor-pointer p-3 text-center rounded-2xl transition ease-in-out duration-300 min-w-30
+                className={`cursor-pointer p-3 text-center rounded-2xl transition ease-in-out duration-300 min-w-30 disabled:bg-gray-500 disabled:cursor-auto
                     ${action === "Start" || action === "Restart"
                         ? 'bg-blue-500 text-white hover:bg-blue-700'
                         : action === 'Pause'
@@ -18,6 +19,7 @@ export const TimerControls = ({ action, onAction, onReset }: Props) => {
                             : ''
                     }`}
                 onClick={onAction}
+                disabled={seg === 0 && action === 'Start'}
             >
                 {action}
             </button>
