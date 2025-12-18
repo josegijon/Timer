@@ -5,6 +5,7 @@ import { notifyTimerEnd } from "../utils/timerUtils";
 
 export const useTimer = () => {
     const [seg, setSeg] = useState(INITIAL_SEG);
+    const [initialTime, setInitialTime] = useState(INITIAL_SEG);
     const [action, setAction] = useState<TimerAction>(INITIAL_ACTION);
     const [isRunning, setIsRunning] = useState(false);
 
@@ -23,18 +24,35 @@ export const useTimer = () => {
         setAction(INITIAL_ACTION);
         setIsRunning(false);
         setSeg(INITIAL_SEG);
+        setInitialTime(INITIAL_SEG);
     };
 
     // Time adjustment handlers
-    const handleAddMin = () => setSeg((prev) => prev + 60);
+    const handleAddMin = () => {
+        setSeg((prev) => {
+            const next = prev + 60;
+            setInitialTime(next);
+            return next;
+        });
+    };
 
     const handleSubtractMin = () => {
-        setSeg((prev) => (prev < 60 ? prev : prev - 60));
+        setSeg((prev) => {
+            if (prev < 60) return prev;
+            const next = prev - 60;
+            setInitialTime(next);
+            return next;
+        });
     };
 
     const handleAddSeg = () => {
-        setSeg((prev) => prev + 1);
+        setSeg((prev) => {
+            const next = prev + 1;
+            setInitialTime(next);
+            return next;
+        });
     };
+
 
     const handleSubtractSeg = useCallback(() => {
         setSeg((prev) => {
@@ -50,6 +68,7 @@ export const useTimer = () => {
 
     return {
         seg,
+        initialTime,
         action,
         isRunning,
 

@@ -11,6 +11,15 @@ export const usePomodoro = () => {
     const [phase, setPhase] = useState<PomodoroPhase>(INITIAL_PHASE);
     const [cycles, setCycles] = useState(0);
 
+    const getInitialTimeForPhase = (phase: PomodoroPhase): number => {
+        switch (phase) {
+            case 'work': return POMODORO_WORK_TIME;
+            case 'shortBreak': return SHORT_BREAK_TIME;
+            case 'longBreak': return LONG_BREAK_TIME;
+            case 'idle': return POMODORO_WORK_TIME;
+        }
+    };
+
     // Time adjustment handlers
     const handleSubtractSeg = useCallback(() => {
         setSeg((prev) => {
@@ -70,6 +79,7 @@ export const usePomodoro = () => {
 
     return {
         seg,
+        initialTime: getInitialTimeForPhase(phase),
         action,
         isRunning,
         phase,

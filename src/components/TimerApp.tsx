@@ -76,8 +76,10 @@ export const TimerApp = () => {
 
             {mode === 'Timer' && (
                 <TimerDisplay
+                    total={timer.seg}
                     min={timerTime.minutes}
                     seg={timerTime.seconds}
+                    initialTime={timer.initialTime}
                     action={timer.action}
                     isRunning={timer.isRunning}
                     onAddMin={timer.handleAddMin}
@@ -90,8 +92,10 @@ export const TimerApp = () => {
             )}
             {mode === 'Pomodoro' && (
                 <PomodoroDisplay
+                    total={pomodoro.seg}
                     min={pomodoroTime.minutes}
                     seg={pomodoroTime.seconds}
+                    initialTime={pomodoro.initialTime}
                     action={pomodoro.action}
                     isRunning={pomodoro.isRunning}
                     phase={pomodoro.phase}
