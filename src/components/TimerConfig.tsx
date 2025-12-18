@@ -1,1 +1,0 @@
-// Inputs para configurar tiempo

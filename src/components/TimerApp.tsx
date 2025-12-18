@@ -5,6 +5,7 @@ import { PomodoroDisplay } from "./PomodoroDisplay";
 import { useTimer } from "../hooks/useTimer";
 import type { TimerMode } from "../types/timerMode.types"
 import { usePomodoro } from "../hooks/usePomodoro";
+import { formatSecondsToMinSec } from "../utils/timerUtils";
 
 export const TimerApp = () => {
     const [mode, setMode] = useState<TimerMode>('Timer');
@@ -13,52 +14,70 @@ export const TimerApp = () => {
     const pomodoro = usePomodoro();
 
     useEffect(() => {
-        if ("Notification" in window) {
-            Notification.requestPermission().then((permission) => {
-                console.log("Permission for notifications: ", permission);
-            });
+        if ("Notification" in window && Notification.permission === "default") {
+            Notification.requestPermission();
+        }
+    }, []);
+
+
+    // Timer
+    useEffect(() => {
+        if (!timer.isRunning) return;
+
+        const intervalId = setInterval(() => {
+            timer.handleSubtractSeg();
+        }, 1000);
+
+        return () => clearInterval(intervalId);
+    }, [timer.isRunning, timer.handleSubtractSeg]);
+
+    // Pomodoro
+    useEffect(() => {
+        if (!pomodoro.isRunning) return;
+
+        const intervalId = setInterval(() => {
+            pomodoro.handleSubtractSeg();
+        }, 1000);
+
+        return () => clearInterval(intervalId);
+    }, [pomodoro.isRunning, pomodoro.handleSubtractSeg]);
+
+    const timerTime = formatSecondsToMinSec(timer.seg);
+    const pomodoroTime = formatSecondsToMinSec(pomodoro.seg);
+
+    const handleModeChange = (newMode: TimerMode) => {
+        if (newMode !== mode) {
+            if (timer.isRunning) {
+                timer.handleAction();
+            }
+            if (pomodoro.isRunning) {
+                pomodoro.handleAction();
+            }
         }
 
-        if (!timer.isRunning && !pomodoro.isRunning) return;
-
-        const timerIsRunning = timer.isRunning;
-
-        if (timerIsRunning) {
-            const intervalId = setInterval(() => {
-                timer.handleSubtractSeg();
-            }, 1000);
-
-            return () => clearInterval(intervalId);
-        } else {
-            const intervalId = setInterval(() => {
-                pomodoro.handleSubtractSeg();
-            }, 1000);
-
-            return () => clearInterval(intervalId);
-        }
-
-    }, [timer.isRunning, pomodoro.isRunning]);
-
+        setMode(newMode);
+    };
 
     return (
         <div className="flex flex-col gap-10">
-            <div className="flex gap-3 mb-10">
+            {/* Mode Selector */}
+            <div className="flex gap-3">
                 <ModeButton
                     mode="Timer"
                     isActive={mode === 'Timer'}
-                    onClick={() => setMode('Timer')}
+                    onClick={() => handleModeChange('Timer')}
                 />
                 <ModeButton
                     mode="Pomodoro"
                     isActive={mode === 'Pomodoro'}
-                    onClick={() => setMode('Pomodoro')}
+                    onClick={() => handleModeChange('Pomodoro')}
                 />
             </div>
 
             {mode === 'Timer' && (
                 <TimerDisplay
-                    min={(Math.floor(timer.seg / 60))}
-                    seg={(timer.seg % 60)}
+                    min={timerTime.minutes}
+                    seg={timerTime.seconds}
                     action={timer.action}
                     isRunning={timer.isRunning}
                     onAddMin={timer.handleAddMin}
@@ -71,8 +90,8 @@ export const TimerApp = () => {
             )}
             {mode === 'Pomodoro' && (
                 <PomodoroDisplay
-                    min={(Math.floor(pomodoro.seg / 60))}
-                    seg={(pomodoro.seg % 60)}
+                    min={pomodoroTime.minutes}
+                    seg={pomodoroTime.seconds}
                     action={pomodoro.action}
                     isRunning={pomodoro.isRunning}
                     phase={pomodoro.phase}
