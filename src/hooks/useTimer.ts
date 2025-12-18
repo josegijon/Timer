@@ -1,6 +1,7 @@
 import { useCallback, useState } from "react"
 import { INITIAL_SEG, INITIAL_ACTION } from "../constants/timer";
 import type { TimerAction } from "../types/timerAction.types";
+import { notifyTimerEnd } from "../utils/timerUtils";
 
 export const useTimer = () => {
     const [seg, setSeg] = useState(INITIAL_SEG);
@@ -46,19 +47,6 @@ export const useTimer = () => {
             return prev - 1;
         });
     }, []);
-
-    // Alerts
-    const notifyTimerEnd = () => {
-        const audio = new Audio("/final-countdown-timer.mp3");
-        audio.play().catch((err) => console.log("Error al reproducir el audio: ", err));
-
-        if ("Notification" in window && Notification.permission === "granted") {
-            new Notification("Timer ended", {
-                body: "Your time has reached 0!",
-            });
-        };
-    };
-
 
     return {
         seg,

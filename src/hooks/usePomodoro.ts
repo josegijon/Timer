@@ -1,7 +1,8 @@
 import { useCallback, useState } from 'react'
 import type { TimerAction } from '../types/timerAction.types';
-import { INITIAL_ACTION, INITIAL_PHASE, INITIAL_SEG, LONG_BREAK_TIME, POMODORO_WORK_TIME, SHORT_BREAK_TIME } from '../constants/timer';
+import { INITIAL_ACTION, INITIAL_PHASE, LONG_BREAK_TIME, POMODORO_WORK_TIME, SHORT_BREAK_TIME } from '../constants/timer';
 import type { PomodoroPhase } from '../types/pomodoroPhase.types';
+import { notifyPomodoroEnd } from '../utils/timerUtils';
 
 export const usePomodoro = () => {
     const [seg, setSeg] = useState(POMODORO_WORK_TIME);
@@ -14,7 +15,10 @@ export const usePomodoro = () => {
     const handleSubtractSeg = useCallback(() => {
         setSeg((prev) => {
             if (prev <= 1) {
-                notifyTimerEnd();
+                setPhase((currentPhase) => {
+                    notifyPomodoroEnd(currentPhase);
+                    return currentPhase;
+                });
                 setIsRunning(false);
                 setAction("Start");
                 return 0;
@@ -25,6 +29,10 @@ export const usePomodoro = () => {
 
     // Action handlers
     const handleAction = () => {
+        if (action === "Start" && phase === "idle") {
+            setPhase("work");
+        };
+
         if (action === "Start" || action === "Restart") {
             setAction("Pause");
             setIsRunning(true);
@@ -33,9 +41,6 @@ export const usePomodoro = () => {
             setIsRunning(false);
         };
 
-        if (action === "Start" && phase === "idle") {
-            setPhase("work");
-        };
     };
 
     const handleSkipStage = () => {
@@ -61,28 +66,6 @@ export const usePomodoro = () => {
         setIsRunning(false);
         setSeg(POMODORO_WORK_TIME);
         setCycles(0);
-    };
-
-    // Alerts
-    const notifyTimerEnd = () => {
-        const audio = new Audio("/final-countdown-timer.mp3");
-        audio.play().catch((err) => console.log("Error al reproducir el audio: ", err));
-
-        if ("Notification" in window && Notification.permission === "granted") {
-            if (phase === "work") {
-                new Notification("Timer ended", {
-                    body: "Your work time has reached 0! Relax!",
-                });
-            } else if (phase === "shortBreak") {
-                new Notification("Timer ended", {
-                    body: "Your short break time has reached 0! To work!",
-                });
-            } else {
-                new Notification("Timer ended", {
-                    body: "Your long break time has reached 0! To work!",
-                });
-            }
-        };
     };
 
     return {
