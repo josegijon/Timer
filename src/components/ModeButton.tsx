@@ -10,10 +10,10 @@ export const ModeButton = ({ mode, isActive, onClick }: Props) => {
     return (
         <button
             className={`
-                w-full flex-1 p-3 rounded-3xl transition-all ease-in-out duration-300
+                w-full flex-1 p-3 rounded-3xl transition-all ease-in-out duration-300 text-gray-200
                 ${isActive
-                    ? 'bg-blue-500 text-white'
-                    : 'bg-white text-black hover:bg-blue-500 hover:text-white cursor-pointer'
+                    ? 'bg-sky-400'
+                    : 'bg-slate-700 hover:bg-slate-800 hover:text-white cursor-pointer'
                 }
             `}
             onClick={onClick}

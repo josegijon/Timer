@@ -33,7 +33,7 @@ export const PomodoroDisplay = ({ total, min, seg, initialTime, action, isRunnin
             case 'work': return '#EF4444';
             case 'shortBreak': return '#10B981';
             case 'longBreak': return '#3B82F6';
-            case 'idle': return '#6B7280';
+            case 'idle': return '#94A3B8';
         }
     };
 
@@ -41,7 +41,7 @@ export const PomodoroDisplay = ({ total, min, seg, initialTime, action, isRunnin
         <div className="flex flex-col items-center justify-center gap-9">
 
             <div className="flex flex-col justify-center items-center gap-2">
-                <p className="text-2xl font-semibold">{getPhaseLabel(phase)}</p>
+                <p className="text-2xl text-slate-200 font-semibold">{getPhaseLabel(phase)}</p>
                 <p className="text-LG text-gray-600">Cycles completed: {cycles}</p>
             </div>
 
