@@ -4,7 +4,7 @@ import type { TimerAction } from "../types/timerAction.types";
 import { notifyTimerEnd } from "../utils/timerUtils";
 
 export const useTimer = () => {
-    const [seg, setSeg] = useState(INITIAL_SEG);
+    const [sec, setSec] = useState(INITIAL_SEG);
     const [initialTime, setInitialTime] = useState(INITIAL_SEG);
     const [action, setAction] = useState<TimerAction>(INITIAL_ACTION);
     const [isRunning, setIsRunning] = useState(false);
@@ -23,13 +23,13 @@ export const useTimer = () => {
     const handleReset = () => {
         setAction(INITIAL_ACTION);
         setIsRunning(false);
-        setSeg(INITIAL_SEG);
+        setSec(INITIAL_SEG);
         setInitialTime(INITIAL_SEG);
     };
 
     // Time adjustment handlers
     const handleAddMin = () => {
-        setSeg((prev) => {
+        setSec((prev) => {
             const next = prev + 60;
             setInitialTime(next);
             return next;
@@ -37,7 +37,7 @@ export const useTimer = () => {
     };
 
     const handleSubtractMin = () => {
-        setSeg((prev) => {
+        setSec((prev) => {
             if (prev < 60) return prev;
             const next = prev - 60;
             setInitialTime(next);
@@ -45,17 +45,26 @@ export const useTimer = () => {
         });
     };
 
-    const handleAddSeg = () => {
-        setSeg((prev) => {
+    const handleAddSec = () => {
+        setSec((prev) => {
             const next = prev + 1;
             setInitialTime(next);
             return next;
         });
     };
 
+    const handleSubtractSec = () => {
+        if (isRunning) return;
 
-    const handleSubtractSeg = useCallback(() => {
-        setSeg((prev) => {
+        setSec((prev) => {
+            const next = Math.max(0, prev - 1);
+            setInitialTime(next);
+            return next;
+        });
+    };
+
+    const handleTimerTick = useCallback(() => {
+        setSec((prev) => {
             if (prev <= 1) {
                 setAction("Start");
                 setIsRunning(false);
@@ -67,7 +76,7 @@ export const useTimer = () => {
     }, []);
 
     return {
-        seg,
+        sec,
         initialTime,
         action,
         isRunning,
@@ -76,7 +85,8 @@ export const useTimer = () => {
         handleReset,
         handleAddMin,
         handleSubtractMin,
-        handleAddSeg,
-        handleSubtractSeg,
+        handleAddSec,
+        handleSubtractSec,
+        handleTimerTick
     }
 }

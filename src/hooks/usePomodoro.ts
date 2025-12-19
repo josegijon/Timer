@@ -5,7 +5,7 @@ import type { PomodoroPhase } from '../types/pomodoroPhase.types';
 import { notifyPomodoroEnd } from '../utils/timerUtils';
 
 export const usePomodoro = () => {
-    const [seg, setSeg] = useState(POMODORO_WORK_TIME);
+    const [sec, setSec] = useState(POMODORO_WORK_TIME);
     const [action, setAction] = useState<TimerAction>(INITIAL_ACTION);
     const [isRunning, setIsRunning] = useState(false);
     const [phase, setPhase] = useState<PomodoroPhase>(INITIAL_PHASE);
@@ -21,8 +21,8 @@ export const usePomodoro = () => {
     };
 
     // Time adjustment handlers
-    const handleSubtractSeg = useCallback(() => {
-        setSeg((prev) => {
+    const handleSubtractSec = useCallback(() => {
+        setSec((prev) => {
             if (prev <= 1) {
                 setPhase((currentPhase) => {
                     notifyPomodoroEnd(currentPhase);
@@ -56,16 +56,16 @@ export const usePomodoro = () => {
         if (phase === "idle" || phase === "work") {
             if ((cycles + 1) % 4 === 0) {
                 setPhase("longBreak");
-                setSeg(LONG_BREAK_TIME);
+                setSec(LONG_BREAK_TIME);
             } else {
                 setPhase("shortBreak");
-                setSeg(SHORT_BREAK_TIME);
+                setSec(SHORT_BREAK_TIME);
             }
             return;
         }
 
         setPhase("work");
-        setSeg(POMODORO_WORK_TIME);
+        setSec(POMODORO_WORK_TIME);
         setCycles((prev) => prev + 1);
     };
 
@@ -73,19 +73,19 @@ export const usePomodoro = () => {
         setAction(INITIAL_ACTION);
         setPhase(INITIAL_PHASE);
         setIsRunning(false);
-        setSeg(POMODORO_WORK_TIME);
+        setSec(POMODORO_WORK_TIME);
         setCycles(0);
     };
 
     return {
-        seg,
+        sec,
         initialTime: getInitialTimeForPhase(phase),
         action,
         isRunning,
         phase,
         cycles,
 
-        handleSubtractSeg,
+        handleSubtractSec,
         handleAction,
         handleSkipStage,
         handleReset
