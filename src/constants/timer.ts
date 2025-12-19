@@ -6,7 +6,7 @@ export const AUDIO = new Audio("/final-countdown-timer.mp3");
 
 // Timer
 export const INITIAL_SEG = 300;
-export const COLOR_PROGRESS_BAR_TIMER = "blue";
+export const COLOR_PROGRESS_BAR_TIMER = "#22C55E";
 
 // Pomodoro
 export const INITIAL_ACTION: TimerAction = "Start";
