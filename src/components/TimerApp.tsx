@@ -25,25 +25,25 @@ export const TimerApp = () => {
         if (!timer.isRunning) return;
 
         const intervalId = setInterval(() => {
-            timer.handleSubtractSeg();
+            timer.handleTimerTick();
         }, 1000);
 
         return () => clearInterval(intervalId);
-    }, [timer.isRunning, timer.handleSubtractSeg]);
+    }, [timer.isRunning, timer.handleSubtractSec]);
 
     // Pomodoro
     useEffect(() => {
         if (!pomodoro.isRunning) return;
 
         const intervalId = setInterval(() => {
-            pomodoro.handleSubtractSeg();
+            pomodoro.handleSubtractSec();
         }, 1000);
 
         return () => clearInterval(intervalId);
-    }, [pomodoro.isRunning, pomodoro.handleSubtractSeg]);
+    }, [pomodoro.isRunning, pomodoro.handleSubtractSec]);
 
-    const timerTime = formatSecondsToMinSec(timer.seg);
-    const pomodoroTime = formatSecondsToMinSec(pomodoro.seg);
+    const timerTime = formatSecondsToMinSec(timer.sec);
+    const pomodoroTime = formatSecondsToMinSec(pomodoro.sec);
 
     const handleModeChange = (newMode: TimerMode) => {
         if (newMode !== mode) {
@@ -76,7 +76,7 @@ export const TimerApp = () => {
 
             {mode === 'Timer' && (
                 <TimerDisplay
-                    total={timer.seg}
+                    total={timer.sec}
                     min={timerTime.minutes}
                     seg={timerTime.seconds}
                     initialTime={timer.initialTime}
@@ -84,15 +84,15 @@ export const TimerApp = () => {
                     isRunning={timer.isRunning}
                     onAddMin={timer.handleAddMin}
                     onSubtractMin={timer.handleSubtractMin}
-                    onAddSeg={timer.handleAddSeg}
-                    onSubtractSeg={timer.handleSubtractSeg}
+                    onAddSeg={timer.handleAddSec}
+                    onSubtractSeg={timer.handleSubtractSec}
                     onAction={timer.handleAction}
                     onReset={timer.handleReset}
                 />
             )}
             {mode === 'Pomodoro' && (
                 <PomodoroDisplay
-                    total={pomodoro.seg}
+                    total={pomodoro.sec}
                     min={pomodoroTime.minutes}
                     seg={pomodoroTime.seconds}
                     initialTime={pomodoro.initialTime}
