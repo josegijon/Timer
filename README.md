@@ -1,73 +1,82 @@
-# React + TypeScript + Vite
+# Timer / Pomodoro
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react) ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white) ![Vite](https://img.shields.io/badge/vite-%23646CFF.svg?style=for-the-badge&logo=vite&logoColor=white) ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white) ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
 
-## React Compiler
+## 📚 Table of Contents
 
-The React Compiler is currently not compatible with SWC. See [this issue](https://github.com/vitejs/vite-plugin-react/issues/428) for tracking the progress.
+- [Project Description](#Project-Description)
+- [Main Features](#main-features)
+- [What I Learned](#what-i-learned)
+- [Tech Stack](#tech-stack)
+- [Screenshots](#screenshots)
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 📝 Project Description
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+This project is a timer / pomodoro application built to practice React and TypeScript.
+It includes state management, component communication, and UI updates based on user actions.
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+---
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## ⭐ Main Features
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+- Configurable timer. 
+- Timer controls: **Start, Pause, Restart, Reset**.
+- Countdown updated every second.
+- Display in **MM:SS** format.
+- Automatically stops at **0**.
+- Notifications with sound and system notifications.
+- Pomodoro mode: 
+    - 25-minute work session 
+    - 5-minute short break
+    - 15-minute long break every four cycles.
+- Progress bar.
+- State persistence afeter page refresh.
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+---
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+## 🎯 What I Learned
+
+- Used the `Notification API` to request permissions and displat system notifications.
+- Used `@font-face` to load custom fonts.
+- Played sounds using `.play()` when the timer or Pomodoro ends.
+- Worked with **lucide-react** for icons.
+- Improved my understanding of **`useEffect`**.
+- Used `useCallback()` to avoid unnecesary function recreation on each render.
+- Used `setInterval()` for recurring tasks.
+- Used `@theme` in `index.css` to create custom breakpoints.
+- Used a **custom hook** to separate component logic and keep the codebase clean.
+- Extracted constants.
+- Created separate files for TypeScript types.
+- Practiced **communication between components**.
+- Wrote strongly typed components with **TypeScript**.
+- Applied **clean code principles**.
+- Organized the project following a clear folder structure.
+- Built a **responsive design** with Tailwind CSS.
+
+---
+
+## 🧰 Tech Stack
+
+- **Vite**
+- **React + TypeScript**
+- **Tailwind CSS**
+- **Git**
+
+---
+
+## 📸 Screenshots
+
+### Timer
+
+![Timer 0](assets/images/image-2.png)
+![Timer 1](assets/images/image-3.png)
+
+### Pomodoro
+
+![Pomodoro 0](assets/images/image.png)
+![Pomodoro 1](assets/images/image-1.png)
